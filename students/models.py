@@ -29,6 +29,8 @@ class Student(models.Model):
     address = models.TextField()
     photo = models.ImageField(upload_to='students-photos/')
     parent_name = models.CharField(max_length=100)
+    parent_phone = models.CharField(max_length=15, unique=True)
+    parent_email = models.EmailField(unique=True)
     relationship = models.CharField(max_length=100)
     enrollment_date = models.DateField(auto_now_add=True)
 
