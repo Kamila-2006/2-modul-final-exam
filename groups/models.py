@@ -23,7 +23,7 @@ class Group(models.Model):
     teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, related_name='group')
     schedule = models.CharField(max_length=100, choices=SCHEDULE_CHOICES, default='select schedule')
     academic_year = models.CharField(max_length=20)
-    maximum_students = models.PositiveIntegerField()
+    max_students = models.PositiveIntegerField()
     description = models.TextField()
     subjects = models.ManyToManyField('subjects.Subject', related_name='groups')
 
