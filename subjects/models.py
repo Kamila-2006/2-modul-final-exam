@@ -25,3 +25,6 @@ class Subject(models.Model):
     grade = models.CharField(max_length=50, choices=GRADE_CHOICES, default='select grade')
     description = models.TextField()
     prerequisites = models.CharField(max_length=100, choices=PREREQUISITES_CHOICES)
+
+    def __str__(self):
+        return self.name

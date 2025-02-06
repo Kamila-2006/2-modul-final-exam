@@ -26,3 +26,6 @@ class Group(models.Model):
     maximum_students = models.PositiveIntegerField()
     description = models.TextField()
     subjects = models.ManyToManyField('subjects.Subject', related_name='groups')
+
+    def __str__(self):
+        return self.name

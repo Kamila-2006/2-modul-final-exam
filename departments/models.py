@@ -7,3 +7,6 @@ class Department(models.Model):
     location = models.CharField
     contact_email = models.EmailField(unique=True)
     contact_phone = models.CharField(max_length=15, unique=True)
+
+    def __str__(self):
+        return self.name

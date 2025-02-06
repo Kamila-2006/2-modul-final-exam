@@ -22,3 +22,6 @@ class Teacher(models.Model):
     join_date = models.DateField()
     subjects = models.ManyToManyField('subjects.Subject', related_name='teachers')
     employment_type = models.CharField(max_length=100, choices=EMPLOYMENT_TYPES, default='select employment type')
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"

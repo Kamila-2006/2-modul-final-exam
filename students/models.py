@@ -31,3 +31,6 @@ class Student(models.Model):
     parent_name = models.CharField(max_length=100)
     relationship = models.CharField(max_length=100)
     enrollment_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
