@@ -49,5 +49,9 @@ class StudentForm(forms.ModelForm):
             }),
             'parent_email': forms.EmailInput(attrs={
                 'placeholder': 'Enter parent/guardian email address'
+            }),
+            'relationship': forms.TextInput(attrs={
+                'placeholder': 'Enter parent/guardian relationship',
+                'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
             })
         }

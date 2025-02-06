@@ -19,6 +19,7 @@ class Teacher(models.Model):
     address = models.TextField()
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='teachers')
     position = models.CharField(max_length=100)
+    qualification = models.CharField(max_length=100)
     join_date = models.DateField()
     subjects = models.ManyToManyField('subjects.Subject', related_name='teachers')
     employment_type = models.CharField(max_length=100, choices=EMPLOYMENT_TYPES, default='select employment type')
