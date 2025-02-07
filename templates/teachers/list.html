@@ -67,7 +67,11 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <img src="{{ teacher.photo.url }}" class="rounded-full w-8 h-8">
+                                    {% if teacher.photo %}
+                                        <img src="{{ teacher.photo.url }}" class="rounded-full w-8 h-8">
+                                    {% else %}
+                                        <img src="/static/default-avatar.png" class="rounded-full w-8 h-8">
+                                    {% endif %}
                                     <div>
                                         <p class="font-medium">{{ teacher.first_name }} {{ teacher.last_name }}</p>
                                         <p class="text-sm text-gray-500">{{ teacher.email }}</p>
@@ -84,15 +88,18 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <a href="detail.html" class="text-blue-600 hover:text-blue-800">
+                                    <a href="{% url 'teachers:detail' teacher.id %}" class="text-blue-600 hover:text-blue-800">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="form.html" class="text-gray-600 hover:text-gray-800">
+                                    <a href="{% url 'teachers:update' teacher.id %}" class="text-gray-600 hover:text-gray-800">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="text-red-600 hover:text-red-800">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <form method="post" action="{% url 'teachers:delete' teacher.id %}">
+                                        {% csrf_token %}
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

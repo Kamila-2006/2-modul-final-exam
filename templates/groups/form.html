@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}School CRM - Add/Edit Group{% endblock %}
+{% block title %}{% if group %}School CRM - Edit Group{% else %}School CRM - Add Group{% endif %}{% endblock %}
 
 {% block content %}
     <div class="max-w-3xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
-            <h1 class="text-2xl font-bold">Add New Group</h1>
+            <h1 class="text-2xl font-bold">{% if group %}Edit Group{% else %}Add New Group{% endif %}</h1>
             <p class="text-gray-500">Create a new group or edit an existing one</p>
         </div>
 

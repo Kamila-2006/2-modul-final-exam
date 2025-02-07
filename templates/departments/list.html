@@ -50,7 +50,6 @@
                         </th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Head</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Teachers</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Subjects</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Status</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
                     </tr>
@@ -71,7 +70,6 @@
                             </td>
                             <td class="px-6 py-4 text-sm">{{ department.head }}</td>
                             <td class="px-6 py-4 text-sm">{{ department.teachers }}</td>
-                            <td class="px-6 py-4 text-sm">{{ department.subjects }}</td>
                             <td class="px-6 py-4">
                                 <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                                     Active
@@ -79,15 +77,18 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <a href="detail.html" class="text-blue-600 hover:text-blue-800">
+                                    <a href="{% url 'departments:detail' department.id %}" class="text-blue-600 hover:text-blue-800">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="form.html" class="text-gray-600 hover:text-gray-800">
+                                    <a href="{% url 'departments:update' department.id %}" class="text-gray-600 hover:text-gray-800">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="text-red-600 hover:text-red-800">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <form method="post" action="{% url 'departments:delete' department.id %}">
+                                        {% csrf_token %}
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

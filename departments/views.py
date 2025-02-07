@@ -8,6 +8,9 @@ from groups.models import Group
 from subjects.models import Subject
 from django.views.generic import ListView
 from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DetailView
+from django.views.generic import DeleteView
 
 
 def home(request):
@@ -32,4 +35,21 @@ class DepartmentCreateView(CreateView):
     model = Department
     template_name = 'departments/form.html'
     form_class = DepartmentForm
-    success_url = reverse_lazy('departments/list')
+    success_url = reverse_lazy('departments:list')
+
+class DepartmentUpdateView(UpdateView):
+    model = Department
+    template_name = 'departments/form.html'
+    form_class = DepartmentForm
+    success_url = reverse_lazy('departments:list')
+    context_object_name = 'department'
+
+class DepartmentDetailView(DetailView):
+    model = Department
+    template_name = 'departments/detail.html'
+    context_object_name = 'department'
+
+class DepartmentDeleteView(DeleteView):
+    model = Department
+    success_url = reverse_lazy('departments:list')
+    context_object_name = 'department'

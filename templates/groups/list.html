@@ -85,15 +85,18 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <a href="detail.html" class="text-blue-600 hover:text-blue-800">
+                                    <a href="{% url 'groups:detail' group.id %}" class="text-blue-600 hover:text-blue-800">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="form.html" class="text-gray-600 hover:text-gray-800">
+                                    <a href="{% url 'groups:update' group.id %}" class="text-gray-600 hover:text-gray-800">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="text-red-600 hover:text-red-800">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <form method="post" action="{% url 'groups:delete' group.id %}">
+                                        {% csrf_token %}
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
