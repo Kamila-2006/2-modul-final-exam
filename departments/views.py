@@ -31,6 +31,20 @@ class DepartmentListView(ListView):
     template_name = 'departments/list.html'
     context_object_name = 'departments'
 
+    def get_queryset(self):
+        queryset = Department.objects.all()
+        search_query = self.request.GET.get('q')
+        if search_query:
+            queryset = queryset.filter(name__icontains=search_query)
+        head_filter = self.request.GET.get('head')
+        if head_filter:
+            queryset = queryset.filter(head=head_filter)
+        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heads'] = Department.objects.values_list('head',flat=True).distinct()
+        return context
+
 class DepartmentCreateView(CreateView):
     model = Department
     template_name = 'departments/form.html'

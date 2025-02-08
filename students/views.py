@@ -14,6 +14,26 @@ class StudentListView(ListView):
     template_name = 'students/list.html'
     context_object_name = 'students'
 
+    def get_queryset(self):
+        queryset = Student.objects.all()
+        search_query = self.request.GET.get('q')
+        if search_query:
+            queryset = queryset.filter(first_name__icontains=search_query) | queryset.filter(
+                last_name__icontains=search_query)
+        grade_filter = self.request.GET.get('grade')
+        if grade_filter:
+            queryset = queryset.filter(grade=grade_filter)
+        group_filter = self.request.GET.get('group')
+        if group_filter:
+            queryset = queryset.filter(group__name=group_filter)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['grades'] = Student.objects.values_list('grade', flat=True).distinct()
+        context['groups'] = Student.objects.values_list('group__name', flat=True).distinct()
+        return context
+
 class StudentCreateView(CreateView):
     model = Student
     template_name = 'students/form.html'

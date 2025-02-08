@@ -28,6 +28,7 @@ urlpatterns = [
     path('teachers/', include('teachers.urls')),
     path('subjects/', include('subjects.urls')),
     path('groups/', include('groups.urls')),
+    path('users/', include('users.urls', namespace='users')),
 ]
 
 if settings.DEBUG:

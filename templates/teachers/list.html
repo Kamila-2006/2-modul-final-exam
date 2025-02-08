@@ -6,10 +6,11 @@
     <div class="mb-8 flex justify-between items-center">
         <h1 class="text-2xl font-bold">Teachers</h1>
         <div class="flex items-center space-x-4">
-            <div class="relative">
-                <input type="search" placeholder="Search teachers..." class="pl-10 pr-4 py-2 border rounded-lg">
+            <form method="GET" action="{% url 'teachers:list' %}" class="relative">
+                <input name="q" value="{{ request.GET.q }}" type="search" placeholder="Search teachers..." class="pl-10 pr-4 py-2 border rounded-lg">
                 <i class="bi bi-search absolute left-3 top-3 text-gray-400"></i>
-            </div>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Search</button>
+            </form>
             <a href="{% url 'teachers:create' %}" class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
                 <i class="bi bi-plus"></i>
                 <span>Add Teacher</span>
@@ -18,30 +19,32 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+    <form method="get" action="{% url 'teachers:list' %}" class="bg-white p-4 rounded-lg shadow-sm mb-6">
         <div class="flex flex-wrap gap-4">
-            <select class="border rounded-lg px-4 py-2">
-                <option>All Departments</option>
-                <option>Science</option>
-                <option>Mathematics</option>
-                <option>Languages</option>
+            <select name="department" class="border rounded-lg px-4 py-2">
+                <option value="">All Departments</option>
+                {% for department in departments %}
+                    <option value="{{ department }}">
+                        {{ department }}
+                    </option>
+                {% endfor %}
             </select>
-            <select class="border rounded-lg px-4 py-2">
-                <option>All Subjects</option>
-                <option>Physics</option>
-                <option>Chemistry</option>
-                <option>Biology</option>
+            <select name="subject" class="border rounded-lg px-4 py-2">
+                <option value="" >All Subjects</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject }}">
+                        {{ subject }}
+                    </option>
+                {% endfor %}
             </select>
-            <select class="border rounded-lg px-4 py-2">
-                <option>Status</option>
-                <option>Active</option>
-                <option>On Leave</option>
-            </select>
-            <button class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                Clear Filters
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                Apply Filters
             </button>
+            <a href="{% url 'teachers:list' %}" class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                Clear Filters
+            </a>
         </div>
-    </div>
+    </form>
 
     <!-- Teachers Table -->
     <div class="bg-white rounded-lg shadow-sm">

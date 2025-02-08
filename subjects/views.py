@@ -14,6 +14,25 @@ class SubjectListView(ListView):
     template_name = 'subjects/list.html'
     context_object_name = 'subjects'
 
+    def get_queryset(self):
+        queryset = Subject.objects.all()
+        search_query = self.request.GET.get('q')
+        if search_query:
+            queryset = queryset.filter(name__icontains=search_query)
+        department_filter = self.request.GET.get('department')
+        if department_filter:
+            queryset = queryset.filter(department__name=department_filter)
+        grade_filter = self.request.GET.get('grade')
+        if grade_filter:
+            queryset = queryset.filter(grade=grade_filter)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['departments'] = Subject.objects.values_list('department__name', flat=True).distinct()
+        context['grades'] = Subject.objects.values_list('grade', flat=True).distinct()
+        return context
+
 class SubjectCreateView(CreateView):
     model = Subject
     template_name = 'subjects/form.html'
