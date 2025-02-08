@@ -1,8 +1,12 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView, FormView, UpdateView
 from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
+from django.views import View
+from  .models import UserProfile
+from django.contrib.auth import logout
 
 
 class SignUpView(CreateView):
@@ -24,16 +28,31 @@ class UserLoginView(FormView):
     def form_valid(self, form):
         email = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
-        user = authenticate(self.request,username=email, password=password)
+        user = authenticate(self.request,email=email, password=password)
         if user is not None:
             login(self.request, user)
             return super().form_valid(form)
         return self.form_invalid(form)
 
-class ProfileView(LoginRequiredMixin, UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    model = UserProfile
     form_class = UserProfileForm
     template_name = 'users/profile-update.html'
-    success_url = reverse_lazy('users:profile')
+    success_url = reverse_lazy('users:update_profile')
 
     def get_object(self, queryset=None):
         return self.request.user.profile
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class CustomLogoutView(View):
+    def post(self, request):
+        logout(request)
+        return redirect('users:success_logout')
+
+class SuccessLogoutView(View):
+    def get(self, request):
+        return render(request, 'users/logout.html')

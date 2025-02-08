@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group, Permission
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from .managers import CustomUserManager
@@ -10,8 +10,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    groups = models.ManyToManyField(Group, blank=True)
-    user_permissions = models.ManyToManyField(Permission, blank=True)
 
     objects = CustomUserManager()
 
@@ -27,8 +25,6 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     phone = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    new_password = models.CharField(max_length=128, blank=True)
-    repeat_password = models.CharField(max_length=128, blank=True)
 
     def __str__(self):
         return f"{self.user.username}'s profile"

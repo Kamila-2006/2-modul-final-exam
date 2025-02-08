@@ -19,6 +19,19 @@
             <!-- Login Form -->
             <form method="post" action="{% url 'users:login' %}" class="space-y-6">
                 {% csrf_token %}
+                <!-- Error Messages -->
+                {% if form.errors %}
+                    <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-md">
+                        <ul class="list-disc list-inside">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
                 <!-- Email Input -->
                 <div class="space-y-2">
                     <label for="id_username" class="block text-sm font-medium text-gray-700">
@@ -54,13 +67,8 @@
 
                 <!-- Remember Me -->
                 <div class="flex items-center">
-                    <input
-                        type="checkbox"
-                        id="remember"
-                        name="remember"
-                        class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    >
-                    <label for="remember" class="ml-2 block text-sm text-gray-700">
+                    {{ form.remember_me }}
+                    <label for="id_remember_me" class="ml-2 block text-sm text-gray-700">
                         Remember me
                     </label>
                 </div>
@@ -78,13 +86,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const togglePassword = document.querySelector('#togglePassword');
-            const password = document.querySelector('#password');
+            const password = document.querySelector('#id_password');
 
             togglePassword.addEventListener('click', function() {
                 // Toggle the type attribute
                 const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
                 password.setAttribute('type', type);
-                
+
                 // Toggle the icon
                 this.querySelector('i').classList.toggle('bi-eye');
                 this.querySelector('i').classList.toggle('bi-eye-slash');
